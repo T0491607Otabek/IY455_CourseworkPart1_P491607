@@ -28,6 +28,14 @@ CREATE TABLE loan (
     FOREIGN KEY (borrower_id) REFERENCES borrower(borrower_id)
 );
 
+CREATE TABLE copy (
+    copy_id INT PRIMARY KEY,
+    dvd_id INT,
+    shelf_position VARCHAR(50),
+    status VARCHAR(50),
+    FOREIGN KEY (dvd_id) REFERENCES dvd(dvd_id)
+);
+
 INSERT INTO borrower VALUES
 (1, 'Colin', 'Morgan', 'Washington', 'Active'),
 (2, 'Bradley', 'James', 'New-York', 'Suspended'),
@@ -48,6 +56,12 @@ INSERT INTO loan VALUES
 (104,4,2026/02/08),
 (105,5,2026/02/10);
 
+INSERT INTO copy VALUES 
+(201,11,'16A','On Loan'),
+(202,12,'32B','Available'),
+(203,13,'32C','Available'),
+(204,14,'39C','On Loan');
+
 SELECT borrower_id AS 'Borrower ID', name AS 'Borrower Name', surname AS 'Borrower Surname', address AS 'Borrower Address', status AS 'Borrower Status'
 FROM borrower;
 
@@ -57,7 +71,11 @@ FROM dvd;
 SELECT loan_id AS 'Loan ID', borrower_id AS 'Borrower ID', loan_date AS 'Loan Date'
 FROM loan;
 
+SELECT copy_id AS 'Copy ID', dvd_id AS 'DVD ID', shelf_position AS 'Shelf Position', status AS 'Status'
+FROM copy;
+
 SELECT * FROM borrower;
 SELECT * FROM dvd;
 SELECT * FROM loan;
+SELECT * FROM copy;
 ```
