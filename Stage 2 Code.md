@@ -77,5 +77,108 @@ FROM copy;
 SELECT * FROM borrower;
 SELECT * FROM dvd;
 SELECT * FROM loan;
+SELECT * FROM copy;CREATE DATABASE dvd_rental;
+USE dvd_rental;
+
+DROP TABLE IF EXISTS borrower;
+DROP TABLE IF EXISTS dvd;
+DROP TABLE IF EXISTS loan;
+DROP TABLE IF EXISTS copy;
+DROP TABLE IF EXISTS borrower;
+
+CREATE TABLE borrower (
+    borrower_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    surname VARCHAR(50),
+    address VARCHAR(50),
+    status VARCHAR(20)
+);
+
+CREATE TABLE dvd (
+    dvd_id INT PRIMARY KEY,
+    title VARCHAR(50),
+    category VARCHAR(50),
+    year INT,
+    rental_cost DECIMAL(5,2)
+);
+
+CREATE TABLE loan (
+    loan_id INT PRIMARY KEY,
+    borrower_id INT,
+    loan_date DATE,
+    FOREIGN KEY (borrower_id) REFERENCES borrower(borrower_id)
+);
+
+CREATE TABLE copy (
+    copy_id INT PRIMARY KEY,
+    dvd_id INT,
+    shelf_position VARCHAR(50),
+    status VARCHAR(50),
+    FOREIGN KEY (dvd_id) REFERENCES dvd(dvd_id)
+);
+
+CREATE TABLE loan_item (
+    loan_id INT,
+    copy_id INT,
+    due_date DATE,
+    return_date DATE,
+    fine DECIMAL(5,2),
+    PRIMARY KEY (loan_id, copy_id),
+    FOREIGN KEY (loan_id) REFERENCES loan(loan_id),
+    FOREIGN KEY (copy_id) REFERENCES copy(copy_id)
+);
+
+INSERT INTO borrower VALUES
+(1, 'Colin', 'Morgan', 'Washington', 'Active'),
+(2, 'Bradley', 'James', 'New-York', 'Suspended'),
+(3, 'Charlie', 'Puth', 'California', 'Terminated'),
+(4, 'Selena', 'Gomez', 'Oregon', 'Active'),
+(5, 'Ed', 'Sheeran', 'Florida', 'Active');
+
+INSERT INTO dvd VALUES
+(11, 'Subway', 'Action', 2012, 4.40),
+(12, 'Brownie', 'Comedy', 2016, 4.05),
+(13, 'Harry Potter', 'Action', 2002, 3.70),
+(14, 'Guardians of the Galaxy', 'Action', 2014, 3.95);
+
+INSERT INTO loan VALUES
+(101,1,2026/02/02),
+(102,2,2026/02/04),
+(103,3,2026/02/06),
+(104,4,2026/02/08),
+(105,5,2026/02/10);
+
+INSERT INTO copy VALUES
+(201,11,'16A','On Loan'),
+(202,12,'32B','Available'),
+(203,13,'32C','Available'),
+(204,14,'39C','On Loan');
+
+INSERT INTO loan_item VALUES
+(101,201,2026/02/04,2026/02/06, 3.50),
+(102,202,202602/06,2026/02/08, 4.30),
+(103,202,2026/02/08,2026/02/10,3.05),
+(104,204,2026/02/10,2026/02/12,4.30),
+(105,205,2026/02/12,2026/02/14,2.50);
+
+SELECT borrower_id AS 'Borrower ID', name AS 'Borrower Name', surname AS 'Borrower Surname', address AS 'Borrower Address', status AS 'Borrower Status'
+FROM borrower;
+
+SELECT dvd_id AS 'DVD ID', title AS 'Title', category AS 'Category', year AS 'year', rental_cost AS 'Rental Cost'
+FROM dvd;
+
+SELECT loan_id AS 'Loan ID', borrower_id AS 'Borrower ID', loan_date AS 'Loan Date'
+FROM loan;
+
+SELECT copy_id AS 'Copy ID', dvd_id AS 'DVD ID', shelf_position AS 'Shelf Position', status AS 'Status'
+FROM copy;
+
+SELECT loan_id AS 'Loan ID', copy_id AS 'Copy ID', due_date AS 'Due Date', return_date AS "Return Date", fine AS 'Fine'
+FROM loan_item;
+
+SELECT * FROM borrower;
+SELECT * FROM dvd;
+SELECT * FROM loan;
 SELECT * FROM copy;
+SELECT * FROM loan_item;
 ```
